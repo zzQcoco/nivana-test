@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.3.xsd ">
+
+	<!-- 该 BeanPostProcessor 将自动起作用，对标注 @Autowired 的 Bean 进行自动注入 -->
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+
+	<!-- 自动导入注解包 -->
+	<context:component-scan base-package="cn.beta.*" />
+	
+	<bean id="jdbcConfig"
+		class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:jdbc.properties</value>
+		</property>
+	</bean>
+
+
+<!-- 
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${driverClassName}">
+		</property>
+		<property name="jdbcUrl" value="${url}">
+		</property>
+		<property name="user" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+		<property name="initialPoolSize" value="15"></property>
+		<property name="maxConnectionAge" value="10000"></property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.autodetectDataSource">false</prop>
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate5.SpringSessionContext
+				</prop>
+				<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+
+				<prop key="hibernate.multiTenancy">DATABASE</prop>
+				<prop key="hibernate.tenant_identifier_resolver">cn.beta.dao.init.TenantIdentifierResolverImpl</prop>
+				<prop key="hibernate.multi_tenant_connection_provider">cn.beta.dao.init.ConnectionProviderImpl</prop>
+			</props>
+		</property>
+		<property name="packagesToScan">
+			<array>
+				<value>cn.beta.entity.template</value>
+				<value>cn.beta.entity.user</value>
+				<value>cn.beta.entity.view</value>
+			</array>
+		</property>
+	</bean>
+
+	配置hibernateTemplate
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate"> 
+		<property name="sessionFactory" ref="sessionFactory" /> </bean>
+
+	配置事务管理
+	<bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"> 
+		<property name="sessionFactory" ref="sessionFactory"></property> </bean> 
+		使用annotation定义事务 
+		<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+
+
+	<bean name="txAdvice" class="cn.beta.stx.TransactionManager">
+		<constructor-arg name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<aop:config>
+		<aop:pointcut expression="execution(* cn.beta.biz..*.*(..))"
+			id="pointcut_tx" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut_tx" />
+	</aop:config> -->
+
+
+</beans>
